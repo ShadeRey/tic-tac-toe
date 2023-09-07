@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">tic-tac-poe</string>
+    <string name="dont_click">Dont Click</string>
+    <string name="save">Сохранить!</string>
+</resources>
