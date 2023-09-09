@@ -1,6 +1,7 @@
 package com.nlp.tic_tac_poe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -23,7 +24,6 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     public GameBoardBinding binding;
     public ArrayList<Button> squaresArray;
-
     private ColorStateList drawColor;
     private ColorStateList winColor;
     private ColorStateList defaultColor;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //Ссылаемся на интерфейс
         setContentView(binding.getRoot());
         boardInit();
-
+initClearBoardBtn();
         drawColor = this.getColorStateList(R.color.black);
         winColor = this.getColorStateList(R.color.green);
     }
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     squaresArray.get(i).setBackgroundTintList(winColor);
                 });
                 blockAllButtons();
+                Toast.makeText(this, "X Win!", Toast.LENGTH_SHORT).show();
                 /// winDialog(title);
             } else if (oCount == 3) {
                 // победа
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     squaresArray.get(i).setBackgroundTintList(winColor);
                 });
                 blockAllButtons();
+                Toast.makeText(this, "0 Win!", Toast.LENGTH_SHORT).show();
                 // winDialog(context.getResources().getString(R.string.o_won));
             }
         }
@@ -111,6 +113,25 @@ public class MainActivity extends AppCompatActivity {
     private void blockAllButtons() {
         squaresArray.stream().forEach(it -> {
             it.setEnabled(false);
+        });
+    }
+    private void unblockAllButtons() {
+        squaresArray.stream().forEach(it -> {
+            it.setEnabled(true);
+        });
+    }
+    private void initClearBoardBtn(){
+        Button clearBtn = findViewById(R.id.clear_btn);
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Новая игра", Toast.LENGTH_SHORT).show();
+                for(Button square: squaresArray){
+                    square.setText(" ");
+                    square.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), com.beardedhen.androidbootstrap.R.color.bootstrap_gray_light));
+                }
+                unblockAllButtons();
+            }
         });
     }
 
